@@ -2,3 +2,4 @@
 .env
 /dist/
 session.json
+PLANS.md
