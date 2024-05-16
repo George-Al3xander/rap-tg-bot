@@ -15,23 +15,5 @@ export class StartCommand extends Command {
         Markup.inlineKeyboard([Markup.button.callback("Suggest", "suggest")])
       )
     })
-    // this.bot.start((ctx) => {
-    //   console.log(ctx.session)
-    //   ctx.reply(
-    //     "Did you like the course?",
-    //     Markup.inlineKeyboard([
-    //       Markup.button.callback("Yes", "course_like"),
-    //       Markup.button.callback("No", "course_dislike"),
-    //     ])
-    //   )
-    // })
-    // this.bot.action("course_like", (ctx) => {
-    //   ctx.session.course_like = true
-    //   ctx.editMessageText("That's cool!")
-    // })
-    // this.bot.action("course_dislike", (ctx) => {
-    //   ctx.session.course_like = true
-    //   ctx.editMessageText(":(")
-    // })
   }
 }

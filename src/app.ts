@@ -1,18 +1,14 @@
-import { Scenes, Telegraf, session } from "telegraf"
+import { Telegraf, session } from "telegraf"
 import { ConfigService } from "./config/config.service"
 import { TConfigService } from "./config/config.type"
 import { TBotContext } from "./context/context.type"
 import { Command } from "./commands/command.class"
 import { StartCommand } from "./commands/command.start"
 import LocalSession from "telegraf-session-local"
-import { HandleMessageCommand } from "./commands/command.message"
-import { CreateQuoteCommand } from "./commands/command.create"
+import { QuoteScene } from "./scenes/quote/quote.scene"
+import { Stage } from "./stage/stage.class"
+import { MainStage } from "./stage/stage.main"
 
-import { QuoteScene } from "./scenes/quote.scene"
-import { TestCommand } from "./commands/command.testy"
-import { Stage as TStage } from "telegraf/typings/scenes"
-import { SceneRegistrator } from "./commands/command.scene.registration"
-const { Stage } = Scenes
 class Bot {
   bot: Telegraf<TBotContext>
   commands: Command[] = []
@@ -23,19 +19,19 @@ class Bot {
   }
 
   init() {
-    this.commands = [new StartCommand(this.bot), new TestCommand(this.bot)]
+    // Register all bot commands
+    this.commands = [new StartCommand(this.bot)]
 
+    // Apply all registered commands
     for (const command of this.commands) {
       command.handle()
     }
 
+    // Register all bot scenes
     this.scenes = [new QuoteScene("quote")]
-    const stage = new Stage<any>(this.scenes)
-    this.bot.use(stage.middleware())
 
-    for (const scene of this.scenes) {
-      scene.registerTrigger(this.bot)
-    }
+    // Create and initialize a new stage
+    new MainStage(this.bot, this.scenes).init()
 
     this.bot.launch(() => console.log("Bot launched"))
   }

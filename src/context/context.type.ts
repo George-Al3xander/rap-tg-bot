@@ -1,5 +1,6 @@
 import { Context, session } from "telegraf"
 import { Update } from "telegraf/typings/core/types/typegram"
+import { WizardContext } from "telegraf/typings/scenes"
 
 export type Quote = {
   text: string
@@ -13,6 +14,7 @@ export type SessionData = {
   currentStep: keyof Quote
 }
 
-export type TBotContext = Context & {
-  session: SessionData
-}
+export type TBotContext = Context &
+  WizardContext & {
+    session: SessionData
+  }

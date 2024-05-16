@@ -1,17 +1,15 @@
-import { Context, Scenes } from "telegraf"
-import { Quote, SessionData, TBotContext } from "../context/context.type"
-import { BaseScene } from "telegraf/typings/scenes"
+import { TBotContext } from "@/context/context.type"
+import { Scene } from "@/scenes/scene.class"
+import { WizardContext } from "@/types/type"
 
-const TelegrafStage = Scenes.Stage
-const { WizardScene } = Scenes
+import { Telegraf } from "telegraf"
 
-export class Stage {
-  scenes: any[]
-  constructor() {
-    this.scenes = [new WizardScene("id")]
+export abstract class Stage {
+  bot: Telegraf<TBotContext>
+  scenes: Scene[] = []
+  constructor(bot: Telegraf<TBotContext>) {
+    this.bot = bot
   }
 
-  init() {
-    const stage = new TelegrafStage(this.scenes)
-  }
+  abstract init(): void
 }
