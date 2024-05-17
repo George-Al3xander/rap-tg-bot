@@ -8,6 +8,7 @@ import LocalSession from "telegraf-session-local"
 import { CreateQuoteScene } from "./scenes/quote/create/create.quote.scene"
 import { QuoteDecisionScene } from "@/scenes/quote/decision/decision.quote.scene"
 import { MainStage } from "./stage/stage.main"
+import { adminMiddleWare } from "./middleware/middleware.admin"
 
 class Bot {
   bot: Telegraf<TBotContext>
@@ -15,6 +16,7 @@ class Bot {
   scenes: any[] = []
   constructor(private readonly configService: TConfigService) {
     this.bot = new Telegraf<TBotContext>(this.configService.get("BOT_TOKEN"))
+    this.bot.use(adminMiddleWare(this.configService.get("ADMIN_ID")))
     this.bot.use(new LocalSession({ database: "session.json" }).middleware())
   }
 
