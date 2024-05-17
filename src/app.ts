@@ -5,8 +5,8 @@ import { TBotContext } from "./context/context.type"
 import { Command } from "./commands/command.class"
 import { StartCommand } from "./commands/command.start"
 import LocalSession from "telegraf-session-local"
-import { QuoteScene } from "./scenes/quote/quote.scene"
-import { Stage } from "./stage/stage.class"
+import { CreateQuoteScene } from "./scenes/quote/create/create.quote.scene"
+import { QuoteDecisionScene } from "@/scenes/quote/decision/decision.quote.scene"
 import { MainStage } from "./stage/stage.main"
 
 class Bot {
@@ -28,7 +28,10 @@ class Bot {
     }
 
     // Register all bot scenes
-    this.scenes = [new QuoteScene("quote")]
+    this.scenes = [
+      new CreateQuoteScene("quote"),
+      new QuoteDecisionScene("quote_decision"),
+    ]
 
     // Create and initialize a new stage
     new MainStage(this.bot, this.scenes).init()

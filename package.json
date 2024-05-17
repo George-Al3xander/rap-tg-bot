@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node  ./dist/app.js",
     "build": "tsc --build && tsc-alias",
-    "dev": "nodemon   --ignore session.json ./src/app.ts",
+    "dev": "nodemon --ignore session.json -e ts,js --exec ts-node -r tsconfig-paths/register ./src/app.ts",
     "devBuild": "tsc --build && tsc-alias && node  ./dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +25,7 @@
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   }
 }

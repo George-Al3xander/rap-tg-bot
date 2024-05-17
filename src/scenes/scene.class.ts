@@ -5,6 +5,10 @@ const { WizardScene } = Scenes
 
 export abstract class Scene extends WizardScene<any> {
   constructor(id: string, ...steps: Middleware<any>[]) {
+    for (const step of steps) {
+      //@ts-ignore
+      step.register()
+    }
     super(id, ...steps)
     this.id = id
   }

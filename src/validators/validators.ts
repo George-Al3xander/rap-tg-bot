@@ -3,10 +3,10 @@ import { replyError } from "@/lib/utils"
 import { CTXFunc, WizardContext } from "@/types/type"
 import { validationWrapper } from "./validator.fn"
 
-export const validateQuoteField = (key: keyof Quote) => {
-  return validationWrapper(function (ctx: WizardContext, next) {
+export const validateQuoteKey =
+  (key: keyof Quote, successCallback?: Function): CTXFunc =>
+  (ctx: WizardContext, next) => {
     const str = ctx.text
-
     try {
       if (!str || !/\S/.test(str)) {
         throw new Error(
@@ -17,9 +17,16 @@ export const validateQuoteField = (key: keyof Quote) => {
         throw new Error(`${key[0].toUpperCase() + key.slice(1)} is too short`)
       }
       ctx.session.quote[key] = str
-      next()
+      if (successCallback) {
+        successCallback()
+      } else {
+        next()
+      }
     } catch (error) {
-      replyError(ctx, error)
+      return replyError(ctx, error)
     }
-  } as CTXFunc)
+  }
+
+export const validateQuoteField = (key: keyof Quote) => {
+  return validationWrapper(validateQuoteKey(key))
 }

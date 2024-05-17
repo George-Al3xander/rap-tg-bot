@@ -1,7 +1,6 @@
-import { formatQuote } from "@/lib/utils"
+import { SceneStep } from "@/scenes/step/step.class"
 import { CTXFunc } from "@/types/type"
-import { Markup } from "telegraf"
-import { SceneStep } from "../step/step.class"
+
 
 export class StartWizard extends SceneStep {
   validationMiddleware?: unknown
@@ -64,16 +63,12 @@ export class SongNameStep extends SceneStep {
       "text",
       //@ts-ignore
       ...this.validationMiddleware(async (ctx) => {
-        await ctx.reply("Here's the formatted quote🟢⬇️")
-        await ctx.replyWithHTML(
-          formatQuote(ctx.session.quote),
-          Markup.inlineKeyboard([
-            Markup.button.callback("Confirm✅", "quote_confirm"),
-            Markup.button.callback("Edit✏️", "quote_edit"),
-          ])
-        )
-        return ctx.scene!.leave()
+        await ctx.scene.leave()
+        return ctx.scene.enter("quote_decision")
       })
     )
   }
 }
+
+// new - nodemon --ignore session.json -e ts,js --exec ts-node -r tsconfig-paths/register ./src/app.ts
+//prev -  nodemon   --ignore session.json ./src/app.ts
