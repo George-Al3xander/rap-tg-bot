@@ -4,8 +4,7 @@ export const adminMiddleWare =
   (ids: string) => async (ctx: TBotContext, next: () => Promise<void>) => {
     const adminIDs = ids.split("/")
     const { id } = await ctx.getChat()
-    if (adminIDs.includes(id.toString())) {
-      console.log("Admin middleware executed")
+    if (adminIDs.includes(id.toString())) {      
       return await next()
     }
     await ctx.replyWithHTML(

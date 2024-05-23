@@ -1,16 +1,21 @@
-import { WizardContext } from "@/types/type"
-import { Middleware, Scenes, Telegraf } from "telegraf"
+import { WizardContext } from "@/types/type";
+import { Middleware, Scenes, Telegraf } from "telegraf";
 
-const { WizardScene } = Scenes
+const { WizardScene } = Scenes;
 
 export abstract class Scene extends WizardScene<any> {
-  constructor(id: string, ...steps: Middleware<any>[]) {
-    for (const step of steps) {
-      //@ts-ignore
-      step.register()
+  constructor(id: string, steps?: Middleware<any>[]) {
+    steps = steps || [];
+    if (steps.length > 0) {
+      for (const step of steps) {
+        //@ts-ignore
+        step.register();
+      }
+      super(id, ...steps);
+    } else {
+      super(id);
     }
-    super(id, ...steps)
-    this.id = id
+    this.id = id;
   }
-  abstract registerTrigger(bot: Telegraf<WizardContext>): void
+  abstract registerTrigger(bot: Telegraf<WizardContext>): void;
 }

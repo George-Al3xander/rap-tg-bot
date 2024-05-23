@@ -1,31 +1,32 @@
-import { Telegraf } from "telegraf"
-import { validateQuoteField } from "@/validators/validators"
+import { Telegraf } from "telegraf";
+import { validateQuoteField } from "@/lib/validators/validators";
 import {
-  StartWizard,
-  QuoteStep,
-  AuthorStep,
-  SongNameStep,
- 
-} from "./create.quote.steps"
-import { Scene } from "../../scene.class"
-import { WizardContext } from "@/types/type"
+  InitialCreationStep,
+  FinalCreationStep,
+  FactoryStep,
+  factorySteps,
+} from "./create.quote.steps";
+
+import { WizardContext } from "@/types/type";
+import { Scene } from "@/scenes/scene.class";
+import { Quote } from "@/context/context.type";
+
 
 export class CreateQuoteScene extends Scene {
   constructor(id: string) {
     const steps = [
-      new StartWizard(),
-      new QuoteStep(validateQuoteField("text")),
-      new AuthorStep(validateQuoteField("author")),
-      new SongNameStep(validateQuoteField("origin")),      
-    ]
+      new InitialCreationStep(),
+      ...factorySteps,
+      new FinalCreationStep(validateQuoteField("origin")),
+    ];
 
-    super(id, ...steps)
+    super(id, steps);
   }
   registerTrigger(bot: Telegraf<WizardContext>) {
     bot.action("suggest", async (ctx) => {
-      await ctx.deleteMessage()
+      await ctx.deleteMessage();
 
-      await ctx.scene!.enter(this.id)
-    })
+      await ctx.scene!.enter(this.id);
+    });
   }
 }
