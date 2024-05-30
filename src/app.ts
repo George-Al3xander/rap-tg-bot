@@ -1,6 +1,4 @@
 import { Telegraf } from "telegraf";
-import { ConfigService } from "./config/config.service";
-import { TConfigService } from "./config/config.type";
 import { TBotContext } from "./context/context.type";
 import { Command } from "./commands/command.class";
 import { StartCommand } from "./commands/command.start";
@@ -12,6 +10,8 @@ import { adminMiddleWare } from "./middleware/middleware.admin";
 import { groupMiddleware } from "./middleware/middleware.group";
 import { QuoteValidationScene } from "./scenes/quote/validate/validate.quote.scene";
 import { IntroScene } from "./scenes/intro/intro.scene";
+import { config } from "dotenv";
+config();
 
 class Bot {
   bot: Telegraf<TBotContext>;
@@ -19,18 +19,15 @@ class Bot {
   scenes: any[] = [];
   options?: Partial<Telegraf.Options<TBotContext>> | undefined;
   constructor(
-    private readonly configService: TConfigService,
+    //private readonly configService: TConfigService,
     options?: Partial<Telegraf.Options<TBotContext>> | undefined,
   ) {
-    this.bot = new Telegraf<TBotContext>(
-      this.configService.get("BOT_TOKEN"),
-      options,
-    );
+    this.bot = new Telegraf<TBotContext>(process.env.BOT_TOKEN!, options);
     //Middleware for ignoring messages for specified groups
-    this.bot.use(groupMiddleware(this.configService.get("GROUP_ID")));
+    this.bot.use(groupMiddleware(process.env.GROUP_ID!));
 
     // Middleware for protecting bot functionality from non-admin users
-    this.bot.use(adminMiddleWare(this.configService.get("ADMIN_ID")));
+    this.bot.use(adminMiddleWare(process.env.ADMIN_ID!));
 
     // Local session middleware
     this.bot.use(new LocalSession({ database: "session.json" }).middleware());
@@ -44,10 +41,7 @@ class Bot {
     this.scenes = [
       new IntroScene("intro_scene"),
       new CreateQuoteScene("quote"),
-      new QuoteDecisionScene(
-        "quote_decision",
-        this.configService.get("GROUP_ID"),
-      ),
+      new QuoteDecisionScene("quote_decision", process.env.GROUP_ID!),
       new QuoteValidationScene("quote_validate"),
     ];
 
@@ -58,10 +52,10 @@ class Bot {
     for (const command of this.commands) {
       command.handle();
     }
-    
+
     this.bot.launch(() => console.log("Bot launched"));
   }
 }
-// option - { channelMode: true }
-const bot = new Bot(new ConfigService());
+
+const bot = new Bot();
 bot.init();

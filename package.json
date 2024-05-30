@@ -7,7 +7,7 @@
     "start": "node  ./dist/app.js",
     "build": "tsc --build && tsc-alias",
     "dev": "nodemon --ignore session.json -e ts,js --exec ts-node -r tsconfig-paths/register ./src/app.ts",
-    "devBuild": "tsc --build && tsc-alias && node  ./dist/app.js",
+    "devBuild": "tsc --build && tsc-alias && node ./dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier . --write"
   },
