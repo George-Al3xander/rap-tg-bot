@@ -57,7 +57,7 @@ class Bot {
       command.handle();
     }
 
-    this.bot.launch();
+    //this.bot.launch();
   }
 }
 
@@ -76,4 +76,4 @@ app.listen(PORT, () => {
   bot.bot.telegram.setWebhook(`${process.env.HOST_URL}${SECRET_PATH}`);
 });
 
-//bot.init();
+bot.init();
