@@ -11,7 +11,11 @@ import { groupMiddleware } from "./middleware/middleware.group";
 import { QuoteValidationScene } from "./scenes/quote/validate/validate.quote.scene";
 import { IntroScene } from "./scenes/intro/intro.scene";
 import { config } from "dotenv";
+import express from "express";
 config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 class Bot {
   bot: Telegraf<TBotContext>;
@@ -53,9 +57,23 @@ class Bot {
       command.handle();
     }
 
-    this.bot.launch(() => console.log("Bot launched"));
+    this.bot.launch();
   }
 }
 
 const bot = new Bot();
-bot.init();
+
+const SECRET_PATH = `/telegraf/${bot.bot.secretPathComponent()}`;
+app.use(bot.bot.webhookCallback(SECRET_PATH));
+
+app.get("/", (req, res) => {
+  res.send("Bot is running");
+});
+
+// Start the Express server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+  bot.bot.telegram.setWebhook(`${process.env.HOST_URL}${SECRET_PATH}`);
+});
+
+//bot.init();
