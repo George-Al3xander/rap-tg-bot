@@ -22,13 +22,9 @@ class Bot {
   options?: Partial<Telegraf.Options<TBotContext>> | undefined;
   constructor(
     //private readonly configService: TConfigService,
-    launchMode?:  "polling" | "webhooks",
+    launchMode?: "polling" | "webhooks",
     options?: Partial<Telegraf.Options<TBotContext>> | undefined,
   ) {
-    if (launchMode) {
-      this.launchMode = launchMode;
-    }
-
     this.bot = new Telegraf<TBotContext>(process.env.BOT_TOKEN!, options);
     //Middleware for ignoring messages for specified groups
     this.bot.use(groupMiddleware(process.env.GROUP_ID!));
@@ -38,6 +34,10 @@ class Bot {
 
     // Local session middleware
     this.bot.use(new LocalSession({ database: "session.json" }).middleware());
+    
+    if (launchMode) {
+      this.launchMode = launchMode;
+    }
   }
 
   init() {
@@ -70,4 +70,4 @@ class Bot {
 const bot = new Bot("webhooks");
 
 const webhooks = new WebhooksHandler(bot.bot);
-webhooks.setup(bot.init);
+webhooks.setup(() => bot.init());
