@@ -11,21 +11,24 @@ import { groupMiddleware } from "./middleware/middleware.group";
 import { QuoteValidationScene } from "./scenes/quote/validate/validate.quote.scene";
 import { IntroScene } from "./scenes/intro/intro.scene";
 import { config } from "dotenv";
-import express from "express";
+import { WebhooksHandler } from "./webhooks/webhooks.handler";
 config();
-
-const app = express();
-const PORT = process.env.PORT || 3000;
 
 class Bot {
   bot: Telegraf<TBotContext>;
+  launchMode?: "polling" | "webhooks" = "polling";
   commands: Command[] = [];
   scenes: any[] = [];
   options?: Partial<Telegraf.Options<TBotContext>> | undefined;
   constructor(
     //private readonly configService: TConfigService,
+    launchMode?:  "polling" | "webhooks",
     options?: Partial<Telegraf.Options<TBotContext>> | undefined,
   ) {
+    if (launchMode) {
+      this.launchMode = launchMode;
+    }
+
     this.bot = new Telegraf<TBotContext>(process.env.BOT_TOKEN!, options);
     //Middleware for ignoring messages for specified groups
     this.bot.use(groupMiddleware(process.env.GROUP_ID!));
@@ -57,23 +60,14 @@ class Bot {
       command.handle();
     }
 
-    //this.bot.launch();
+    //Start polling if not using webhooks
+    if (this.launchMode == "polling") {
+      this.bot.launch();
+    }
   }
 }
 
-const bot = new Bot();
+const bot = new Bot("webhooks");
 
-const SECRET_PATH = `/telegraf/${bot.bot.secretPathComponent()}`;
-app.use(bot.bot.webhookCallback(SECRET_PATH));
-
-app.get("/", (req, res) => {
-  res.send("Bot is running");
-});
-
-// Start the Express server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  bot.bot.telegram.setWebhook(`${process.env.HOST_URL}${SECRET_PATH}`);
-});
-
-bot.init();
+const webhooks = new WebhooksHandler(bot.bot);
+webhooks.setup(bot.init);
