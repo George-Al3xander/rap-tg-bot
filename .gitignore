@@ -1,6 +1,5 @@
 /node_modules/
-.env
 /dist/
+/.idea/
 session.json
-PLANS.md
-/src/garbage.ts
+.env
