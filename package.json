@@ -1,26 +1,33 @@
 {
-	"name": "rap-bot",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"start": "node ./dist/app.js",
-		"build": "tsc --build && tsc-alias",
-		"dev": "nodemon",
-		"dev:build": "pnpm build && node ./dist/app.js",
-		"format": "pnpm biome format --write .",
-		"format:check": "pnpm biome format .",
-		"lint": "tsc && biome lint --error-on-warnings ."
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"nodemon": "^3.1.10",
-		"ts-node": "^10.9.2",
-		"tsc-alias": "^1.8.16",
-		"tsconfig-paths": "^4.2.0",
-		"typescript": "^5.8.3"
-	}
+    "name": "rap-bot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/app.js",
+    "scripts": {
+        "start": "node ./dist/app.js",
+        "build": "tsc --build && tsc-alias",
+        "build:warnings": "tsc --noEmit && tsc-alias",
+        "dev": "nodemon",
+        "dev:build": "pnpm build && node ./dist/app.js",
+        "format": "pnpm biome format --write .",
+        "format:check": "pnpm biome format .",
+        "lint": "tsc && biome lint --error-on-warnings .",
+        "pre-commit": "lint-staged",
+        "prepare": "husky"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@biomejs/biome": "1.9.4",
+        "@commitlint/cli": "^19.8.1",
+        "@commitlint/config-conventional": "^19.8.1",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.0.0",
+        "nodemon": "^3.1.10",
+        "ts-node": "^10.9.2",
+        "tsc-alias": "^1.8.16",
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.8.3"
+    }
 }

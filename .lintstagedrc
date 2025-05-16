@@ -1,0 +1,5 @@
+{
+    "src/**/*.+(js|json|ts|tsx)": ["pnpm lint"],
+    "src/**/*.+(ts|tsx)": ["pnpm build:warnings"],
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": ["pnpm format"]
+}
