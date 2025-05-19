@@ -29,6 +29,9 @@
             "recommended": true,
             "correctness": {
                 "noUnusedImports": "error"
+            },
+            "complexity": {
+                "noThisInStatic": "off"
             }
         }
     },
