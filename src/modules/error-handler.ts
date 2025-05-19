@@ -20,6 +20,9 @@ export class ErrorHandler implements BotModule {
             } else if (e instanceof HttpError) {
                 errObj.type = "HttpError";
                 errObj.description = `Could not contact Telegram: ${e.message}`;
+            } else if (e instanceof Error) {
+                errObj.type = "ProgramError";
+                errObj.description = e.message;
             } else {
                 errObj.type = e?.constructor?.name ?? "UnknownError";
                 errObj.description = "Unknown error occurred.";
