@@ -35,6 +35,8 @@
         "@grammyjs/conversations": "^2.1.0",
         "dotenv": "^16.5.0",
         "envalid": "^8.0.0",
-        "grammy": "^1.36.1"
+        "grammy": "^1.36.1",
+        "pino": "^9.7.0",
+        "pino-pretty": "^13.0.0"
     }
 }

@@ -2,6 +2,7 @@ import { Bot as GrammyBot } from "grammy";
 import { env } from "@/config/env";
 import { conversations } from "@grammyjs/conversations";
 import type { BotModule, FrameworkBot } from "@/types/models";
+import { logger } from "@/logger";
 
 export class Bot {
     private readonly bot: FrameworkBot;
@@ -15,6 +16,11 @@ export class Bot {
     }
 
     init(): void {
-        this.bot.start();
+        try {
+            this.bot.start();
+            logger.info("Bot launched successfully.");
+        } catch (e) {
+            logger.error(e, "Failed to launch bot.");
+        }
     }
 }
