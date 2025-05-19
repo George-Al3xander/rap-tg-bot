@@ -1,8 +1,8 @@
 import { Bot } from "@/bot";
-import { ErrorHandler } from "@/modules";
+import { ErrorHandler, AdminGuard } from "@/modules";
 
 const bootstrap = () => {
-    const bot = new Bot(new ErrorHandler());
+    const bot = new Bot(new ErrorHandler(), new AdminGuard());
     bot.init();
 };
 
