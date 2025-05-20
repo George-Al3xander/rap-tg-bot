@@ -1,9 +1,5 @@
-import type { FrameworkBot } from "@/types/models";
-import {
-    type Conversation,
-    type ConversationFlavor,
-    createConversation,
-} from "@grammyjs/conversations";
+import type { BotContext, FrameworkBot } from "@/types/models";
+import { type Conversation, createConversation } from "@grammyjs/conversations";
 import { type Context, InlineKeyboard, type MiddlewareFn } from "grammy";
 import { BaseScene } from "./base-scene";
 import { WELCOME_TEXT, START_BUTTON_TEXT } from "public/messages.json";
@@ -24,7 +20,7 @@ export class IntroScene extends BaseScene {
         return introConversation.name;
     }
 
-    getMiddleware(): MiddlewareFn<ConversationFlavor<Context>> {
+    getMiddleware(): MiddlewareFn<BotContext> {
         return createConversation(introConversation);
     }
 
