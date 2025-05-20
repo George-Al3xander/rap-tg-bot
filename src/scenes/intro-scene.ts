@@ -3,6 +3,7 @@ import { type Conversation, createConversation } from "@grammyjs/conversations";
 import { type Context, InlineKeyboard, type MiddlewareFn } from "grammy";
 import { BaseScene } from "./base-scene";
 import { WELCOME_TEXT, START_BUTTON_TEXT } from "public/messages.json";
+import { RequestQuoteTextScene } from "./request-quote-text-scene";
 
 const CALLBACK_DATA = "start-creation";
 
@@ -29,7 +30,7 @@ export class IntroScene extends BaseScene {
             await ctx.conversation.enter(IntroScene.getName());
         });
         bot.callbackQuery(CALLBACK_DATA, async (ctx) => {
-            await ctx.reply("Creation started!");
+            await ctx.conversation.enter(RequestQuoteTextScene.getName());
         });
     }
 }
