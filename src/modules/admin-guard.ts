@@ -1,6 +1,7 @@
 import type { BotModule, FrameworkBot } from "@/types/models";
 import { env } from "@/config/env";
 import type { Context, NextFunction } from "grammy";
+import { ACCESS_DENIED_TEXT } from "public/messages.json";
 
 const adminIDs = env.ADMIN_IDS.split("/").map((id) => id.trim());
 
@@ -8,23 +9,13 @@ const adminMiddleware = async (
     ctx: Context,
     next: NextFunction,
 ): Promise<void> => {
-    let chatId: number | null = null;
+    const { id } = await ctx.getChat();
 
-    try {
-        const chat = await ctx.getChat();
-        chatId = chat.id;
-    } catch {
-        chatId = null;
-    }
-
-    if (chatId && chatId > 0) {
-        if (adminIDs.includes(chatId.toString())) {
+    if (id && id > 0) {
+        if (adminIDs.includes(id.toString())) {
             return await next();
         }
-        await ctx.reply(
-            "<b>Unauthorized Access 🔐</b>\n\nYou are not allowed to use this bot.",
-            { parse_mode: "HTML" },
-        );
+        await ctx.reply(ACCESS_DENIED_TEXT, { parse_mode: "HTML" });
     }
 };
 
