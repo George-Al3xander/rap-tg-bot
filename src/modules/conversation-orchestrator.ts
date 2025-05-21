@@ -5,6 +5,7 @@ import {
     ORIGIN_REQUEST_ID,
     TEXT_REQUEST_ID,
 } from "@/constants";
+import { formatQuoteHtml } from "@/utils/format-quote-html";
 
 const SCENE_FLOW = [TEXT_REQUEST_ID, AUTHOR_REQUEST_ID, ORIGIN_REQUEST_ID];
 
@@ -18,9 +19,9 @@ export class ConversationOrchestrator implements BotModule {
                     if (nextSceneId) {
                         await ctx.conversation.enter(nextSceneId);
                     } else {
-                        await ctx.reply(
-                            `Quote: ${ctx.session.text}\n\nAuthor: ${ctx.session.author}, Origin: ${ctx.session.origin}`,
-                        );
+                        await ctx.reply(formatQuoteHtml(ctx.session), {
+                            parse_mode: "HTML",
+                        });
                     }
                 },
             }),
