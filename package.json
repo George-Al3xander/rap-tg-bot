@@ -4,11 +4,11 @@
     "description": "",
     "main": "dist/app.js",
     "scripts": {
-        "start": "node ./dist/app.js",
+        "start": "node ./dist/src/app.js",
         "build": "tsc --build && tsc-alias",
         "build:warnings": "tsc --noEmit && tsc-alias",
         "dev": "nodemon",
-        "dev:build": "pnpm build && node ./dist/app.js",
+        "dev:build": "pnpm build && pnpm start",
         "format": "pnpm biome format --write .",
         "format:check": "pnpm biome format .",
         "lint": "tsc && biome lint --error-on-warnings .",
