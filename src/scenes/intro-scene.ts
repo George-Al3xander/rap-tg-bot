@@ -1,11 +1,11 @@
-import type { BotContext, FrameworkBot } from "@/types/models";
+import type { BotModule, FrameworkBot } from "@/types/models";
 import { type Conversation, createConversation } from "@grammyjs/conversations";
-import { type Context, InlineKeyboard, type MiddlewareFn } from "grammy";
-import { BaseScene } from "./base-scene";
+import { type Context, InlineKeyboard } from "grammy";
 import { WELCOME_TEXT, START_BUTTON_TEXT } from "public/messages.json";
-import { RequestQuoteTextScene } from "./request-quote-text-scene";
+import { TEXT_REQUEST_ID } from "@/constants";
 
 const CALLBACK_DATA = "start-creation";
+const INTRO_CONVERSATION_ID = "intro-conversation";
 
 const introConversation = async (__: Conversation, ctx: Context) => {
     await ctx.reply(WELCOME_TEXT, {
@@ -16,21 +16,18 @@ const introConversation = async (__: Conversation, ctx: Context) => {
     });
 };
 
-export class IntroScene extends BaseScene {
-    static getName(): string {
-        return introConversation.name;
-    }
-
-    getMiddleware(): MiddlewareFn<BotContext> {
-        return createConversation(introConversation);
-    }
-
+export class IntroScene implements BotModule {
     apply(bot: FrameworkBot): void {
+        bot.use(
+            createConversation(introConversation, {
+                id: INTRO_CONVERSATION_ID,
+            }),
+        );
         bot.command("start", async (ctx) => {
-            await ctx.conversation.enter(IntroScene.getName());
+            await ctx.conversation.enter(INTRO_CONVERSATION_ID);
         });
         bot.callbackQuery(CALLBACK_DATA, async (ctx) => {
-            await ctx.conversation.enter(RequestQuoteTextScene.getName());
+            await ctx.conversation.enter(TEXT_REQUEST_ID);
         });
     }
 }
