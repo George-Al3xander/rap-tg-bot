@@ -1,5 +1,4 @@
-import type { BotModule, FrameworkBot } from "@/types/models";
-import type { SessionData } from "@/types/models/session-data";
+import type { BotModule, FrameworkBot, SessionData } from "@/types/models";
 import { session } from "grammy";
 
 const initial = (): SessionData => ({
