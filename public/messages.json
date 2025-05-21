@@ -2,5 +2,7 @@
     "WELCOME_TEXT": "Welcome to MoreThanRapBot! 🎤 Want to contribute to the vibe? Drop your sickest rap quotes and let's keep the flow going! Let's keep those bars hot! 🔥",
     "START_BUTTON_TEXT": "✍️ Create a Quote",
     "ACCESS_DENIED_TEXT": "<b>Unauthorized Access 🔐</b>\n\nYou are not allowed to use this bot.",
-    "ASK_FOR_TEXT": "Please provide the text of the quote."
+    "ASK_FOR_TEXT": "Please provide the text of the quote.",
+    "ASK_FOR_AUTHOR_TEXT": "Please share the name of the author of this quote.",
+    "ASK_FOR_ORIGIN_TEXT": "Specify the origin of this quote."
 }
