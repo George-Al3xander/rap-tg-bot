@@ -1,13 +1,19 @@
 import { Bot } from "@/bot";
-import { ErrorHandler, AdminGuard, Session } from "@/modules";
-import { SceneComposer, IntroScene, RequestQuoteTextScene } from "@/scenes";
+import {
+    ErrorHandler,
+    AdminGuard,
+    Session,
+    ConversationOrchestrator,
+} from "@/modules";
+import { IntroScene } from "@/scenes";
 
 const bootstrap = () => {
     const bot = new Bot(
         new ErrorHandler(),
         new AdminGuard(),
         new Session(),
-        new SceneComposer(new IntroScene(), new RequestQuoteTextScene()),
+        new ConversationOrchestrator(),
+        new IntroScene(),
     );
     bot.init();
 };
