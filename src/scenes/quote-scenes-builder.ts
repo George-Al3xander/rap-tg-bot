@@ -6,16 +6,8 @@ import type {
 } from "@/types/models";
 import { type Conversation, createConversation } from "@grammyjs/conversations";
 import type { Context } from "grammy";
-import {
-    ASK_FOR_TEXT,
-    ASK_FOR_AUTHOR_TEXT,
-    ASK_FOR_ORIGIN_TEXT,
-} from "public/messages.json";
-import {
-    AUTHOR_REQUEST_ID,
-    ORIGIN_REQUEST_ID,
-    TEXT_REQUEST_ID,
-} from "@/constants";
+import { prompts } from "public/messages.json";
+import { conversationIDs } from "@/constants";
 
 const QUOTE_FIELDS: (keyof SessionData)[] = ["text", "author", "origin"];
 
@@ -23,14 +15,14 @@ const QUOTE_METADATA: Record<
     keyof SessionData,
     { messageText: string; id: string }
 > = {
-    text: { messageText: ASK_FOR_TEXT, id: TEXT_REQUEST_ID },
+    text: { messageText: prompts.QUOTE_TEXT, id: conversationIDs.TEXT_REQUEST },
     author: {
-        messageText: ASK_FOR_AUTHOR_TEXT,
-        id: AUTHOR_REQUEST_ID,
+        messageText: prompts.QUOTE_AUTHOR,
+        id: conversationIDs.AUTHOR_REQUEST,
     },
     origin: {
-        messageText: ASK_FOR_ORIGIN_TEXT,
-        id: ORIGIN_REQUEST_ID,
+        messageText: prompts.QUOTE_ORIGIN,
+        id: conversationIDs.ORIGIN_REQUEST,
     },
 };
 

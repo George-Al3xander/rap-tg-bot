@@ -1,27 +1,28 @@
 import type { BotContext, BotModule, FrameworkBot } from "@/types/models";
 import { conversations } from "@grammyjs/conversations";
-import {
-    AUTHOR_REQUEST_ID,
-    ORIGIN_REQUEST_ID,
-    TEXT_REQUEST_ID,
-} from "@/constants";
-import { formatQuoteHtml } from "@/utils/format-quote-html";
+import { conversationIDs } from "@/constants";
 
-const SCENE_FLOW = [TEXT_REQUEST_ID, AUTHOR_REQUEST_ID, ORIGIN_REQUEST_ID];
+const SCENE_FLOW = [
+    conversationIDs.TEXT_REQUEST,
+    conversationIDs.AUTHOR_REQUEST,
+    conversationIDs.ORIGIN_REQUEST,
+];
 
 export class ConversationOrchestrator implements BotModule {
     apply(bot: FrameworkBot): void {
         bot.use(
             conversations({
                 async onExit(currId, ctx: BotContext) {
-                    const currentIndex = SCENE_FLOW.indexOf(currId);
+                    const currentIndex = SCENE_FLOW.indexOf(
+                        currId as (typeof SCENE_FLOW)[number],
+                    );
                     const nextSceneId = SCENE_FLOW[currentIndex + 1] ?? null;
                     if (nextSceneId) {
                         await ctx.conversation.enter(nextSceneId);
                     } else {
-                        await ctx.reply(formatQuoteHtml(ctx.session), {
-                            parse_mode: "HTML",
-                        });
+                        await ctx.conversation.enter(
+                            conversationIDs.CONFIRMATION,
+                        );
                     }
                 },
             }),

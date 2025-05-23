@@ -1,7 +1,7 @@
 import type { BotModule, FrameworkBot } from "@/types/models";
 import { env } from "@/config/env";
 import type { Context, NextFunction } from "grammy";
-import { ACCESS_DENIED_TEXT } from "public/messages.json";
+import { errors } from "public/messages.json";
 
 const adminIDs = env.ADMIN_IDS.split("/").map((id) => id.trim());
 
@@ -15,7 +15,7 @@ const adminMiddleware = async (
         if (adminIDs.includes(id.toString())) {
             return await next();
         }
-        await ctx.reply(ACCESS_DENIED_TEXT, { parse_mode: "HTML" });
+        await ctx.reply(errors.UNAUTHORIZED, { parse_mode: "HTML" });
     }
 };
 

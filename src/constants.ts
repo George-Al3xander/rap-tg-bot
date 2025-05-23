@@ -1,3 +1,11 @@
-export const TEXT_REQUEST_ID = "quote-conversation-text-request";
-export const AUTHOR_REQUEST_ID = "quote-conversation-author-request";
-export const ORIGIN_REQUEST_ID = "quote-conversation-origin-request";
+export const conversationIDs = {
+    TEXT_REQUEST: "quote-conversation-text-request",
+    AUTHOR_REQUEST: "quote-conversation-author-request",
+    ORIGIN_REQUEST: "quote-conversation-origin-request",
+    CONFIRMATION: "quote-conversation-confirm",
+    INTRO: "quote-conversation-intro",
+} as const;
+
+export const actionPayloads = {
+    START_QUOTE_CREATION: "start-creation",
+} as const;
