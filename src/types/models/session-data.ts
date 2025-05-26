@@ -1,5 +1,3 @@
-export type SessionData = {
-    text: string;
-    author: string;
-    origin: string;
-};
+import type { Quote } from "./quote";
+
+export type SessionData = Quote;
