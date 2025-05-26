@@ -5,7 +5,12 @@ import {
     Session,
     ConversationOrchestrator,
 } from "@/modules";
-import { IntroScene, QuoteScenesBuilder, SceneComposer } from "@/scenes";
+import {
+    ConfirmQuoteScene,
+    IntroScene,
+    QuoteScenesBuilder,
+    SceneComposer,
+} from "@/scenes";
 
 const bootstrap = () => {
     const bot = new Bot(
@@ -18,6 +23,7 @@ const bootstrap = () => {
             new QuoteScenesBuilder("text"),
             new QuoteScenesBuilder("author"),
             new QuoteScenesBuilder("origin"),
+            new ConfirmQuoteScene(),
         ),
     );
     bot.init();

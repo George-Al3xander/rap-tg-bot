@@ -17,13 +17,15 @@ export class ConversationOrchestrator implements BotModule {
                         currId as (typeof SCENE_FLOW)[number],
                     );
                     const nextSceneId = SCENE_FLOW[currentIndex + 1] ?? null;
-                    if (nextSceneId) {
+                    const isEdit = ctx.session.isEdit;
+                    if (nextSceneId && !isEdit) {
                         await ctx.conversation.enter(nextSceneId);
                     } else {
                         await ctx.conversation.enter(
                             conversationIDs.CONFIRMATION,
                         );
                     }
+                    ctx.session.isEdit = false;
                 },
             }),
         );

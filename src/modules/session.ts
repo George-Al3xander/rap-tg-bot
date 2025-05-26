@@ -5,6 +5,7 @@ const initial = (): SessionData => ({
     text: "",
     author: "",
     origin: "",
+    isEdit: false,
 });
 
 export class Session implements BotModule {

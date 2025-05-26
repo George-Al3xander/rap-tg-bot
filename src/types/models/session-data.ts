@@ -1,3 +1,3 @@
 import type { Quote } from "./quote";
 
-export type SessionData = Quote;
+export type SessionData = Quote & { isEdit: boolean };
