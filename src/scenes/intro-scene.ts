@@ -1,15 +1,13 @@
 import type { BotModule, FrameworkBot } from "@/types/models";
 import { type Conversation, createConversation } from "@grammyjs/conversations";
-import { type Context, InlineKeyboard } from "grammy";
-import { buttons, welcome } from "public/messages.json";
+import type { Context } from "grammy";
+import { welcome } from "public/messages.json";
 import { actionPayloads, conversationIDs } from "@/constants";
+import { startQuoteCreationKeyboard } from "@/keyboards";
 
 const introConversation = async (__: Conversation, ctx: Context) => {
     await ctx.reply(welcome.TEXT, {
-        reply_markup: new InlineKeyboard().text(
-            buttons.START,
-            actionPayloads.START_QUOTE_CREATION,
-        ),
+        reply_markup: startQuoteCreationKeyboard,
     });
 };
 
