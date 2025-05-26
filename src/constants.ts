@@ -8,4 +8,7 @@ export const conversationIDs = {
 
 export const actionPayloads = {
     START_QUOTE_CREATION: "start-creation",
+    CONFIRM_QUOTE_CREATION: "confirm-creation",
+    EDIT_QUOTE_CREATION: "edit-creation",
+    CANCEL_QUOTE_CREATION: "cancel-creation",
 } as const;
