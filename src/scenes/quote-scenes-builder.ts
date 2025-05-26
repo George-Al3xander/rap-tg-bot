@@ -1,15 +1,13 @@
-import type {
-    BotContext,
-    BotModule,
-    FrameworkBot,
-    Quote,
-} from "@/types/models";
-import { type Conversation, createConversation } from "@grammyjs/conversations";
-import type { Context } from "grammy";
-import { prompts } from "public/messages.json";
 import { conversationIDs } from "@/constants";
-
-const QUOTE_FIELDS: (keyof Quote)[] = ["text", "author", "origin"];
+import type { BotContext, Quote } from "@/types/models";
+import {
+    type Conversation,
+    type ConversationFlavor,
+    createConversation,
+} from "@grammyjs/conversations";
+import type { Context, MiddlewareFn } from "grammy";
+import { prompts } from "public/messages.json";
+import { BaseScene } from "./base-scene";
 
 const QUOTE_METADATA: Record<keyof Quote, { messageText: string; id: string }> =
     {
@@ -47,23 +45,25 @@ const requestConversation =
         await conversation.halt();
     };
 
-export class QuoteScenesBuilder implements BotModule {
-    apply(bot: FrameworkBot): void {
-        for (const f of QUOTE_FIELDS.reverse()) {
-            const { messageText, id } = QUOTE_METADATA[f];
+export class QuoteScenesBuilder extends BaseScene {
+    private readonly quoteFieldKey: keyof Quote;
 
-            bot.use(
-                createConversation(
-                    requestConversation({
-                        quoteField: f,
-                        messageText,
-                    }),
-                    {
-                        id,
-                        parallel: true,
-                    },
-                ),
-            );
-        }
+    constructor(k: keyof Quote) {
+        super();
+        this.quoteFieldKey = k;
+    }
+
+    getMiddleware(): MiddlewareFn<ConversationFlavor<Context>> {
+        const { messageText, id } = QUOTE_METADATA[this.quoteFieldKey];
+        return createConversation(
+            requestConversation({
+                quoteField: this.quoteFieldKey,
+                messageText,
+            }),
+            {
+                id,
+                parallel: true,
+            },
+        );
     }
 }

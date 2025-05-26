@@ -5,7 +5,7 @@ import {
     Session,
     ConversationOrchestrator,
 } from "@/modules";
-import { IntroScene, QuoteScenesBuilder } from "@/scenes";
+import { IntroScene, QuoteScenesBuilder, SceneComposer } from "@/scenes";
 
 const bootstrap = () => {
     const bot = new Bot(
@@ -13,8 +13,12 @@ const bootstrap = () => {
         new AdminGuard(),
         new Session(),
         new ConversationOrchestrator(),
-        new QuoteScenesBuilder(),
-        new IntroScene(),
+        new SceneComposer(
+            new IntroScene(),
+            new QuoteScenesBuilder("text"),
+            new QuoteScenesBuilder("author"),
+            new QuoteScenesBuilder("origin"),
+        ),
     );
     bot.init();
 };
