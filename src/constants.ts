@@ -11,4 +11,8 @@ export const actionPayloads = {
     CONFIRM_QUOTE_CREATION: "confirm-creation",
     EDIT_QUOTE_CREATION: "edit-creation",
     CANCEL_QUOTE_CREATION: "cancel-creation",
+    EDIT_QUOTE_TEXT: "edit-quote-text",
+    EDIT_QUOTE_AUTHOR: "edit-quote-author",
+    EDIT_QUOTE_ORIGIN: "edit-quote-origin",
+    CANCEL_EDIT: "edit-quote-cancel",
 } as const;

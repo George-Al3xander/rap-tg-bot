@@ -6,7 +6,11 @@
         "START": "✍️ Create a Quote",
         "CONFIRM_QUOTE": "Confirm✅",
         "EDIT_QUOTE": "Edit✏️",
-        "CANCEL_QUOTE": "Cancel🗑️"
+        "CANCEL_QUOTE": "Cancel🗑️",
+        "EDIT_QUOTE_TEXT": "Text✍",
+        "EDIT_QUOTE_AUTHOR": "Author",
+        "EDIT_QUOTE_ORIGIN": "Origin",
+        "CANCEL_EDIT": "Cancel"
     },
     "errors": {
         "UNAUTHORIZED": "<b>Unauthorized Access 🔐</b>\n\nYou are not allowed to use this bot."
@@ -14,7 +18,8 @@
     "prompts": {
         "QUOTE_TEXT": "Please provide the text of the quote.",
         "QUOTE_AUTHOR": "Please share the name of the author of this quote.",
-        "QUOTE_ORIGIN": "Specify the origin of this quote."
+        "QUOTE_ORIGIN": "Specify the origin of this quote.",
+        "QUOTE_CREATE_ANOTHER": "Would you like to create another one?"
     },
     "statuses": {
         "QUOTE_POSTING": "Quote is being posted...",
