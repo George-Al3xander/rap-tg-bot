@@ -6,6 +6,7 @@
 
 - **Language**: TypeScript
 - **Bot Framework**: grammY
+- **Web Server**: Express (used for Telegram webhook support)
 - **State & Flow**: `@grammyjs/conversations`, session middleware
 - **Logging**: `pino`, `pino-pretty`
 - **Config Validation**: `envalid`
@@ -29,9 +30,10 @@
 - ✏️ **Edit Submissions**: Users can edit any part of their submission.
 - ✅ **Quote Confirmation UI**: Present final quote with Confirm / Edit / Cancel options.
 - 🧪 **Input Validation**: Enforce length limits for better formatting.
-- 🔒 **Admin Middleware**: Restrict sensitive actions to authorized users.
+- 🔒 **Admin Middleware**: Restrict bot usage to authorized users.
 - 💾 **Session Management**: Use middleware for local session handling.
 - 🧠 **Scene-based Flow**: Implemented using `@grammyjs/conversations`.
+- 🌐 **Webhook Support via Express**: Run the bot through Express.js using Telegram webhooks.
 
 ## 🤖 Bot Commands & Flow
 
@@ -50,7 +52,7 @@ Begins the interaction. The user is prompted to submit a new quote.
 
 ## 🔐 Admin Middleware
 
-Certain actions (e.g., deleting quotes or accessing sensitive data) are protected and only available to authorized admins listed in `ADMIN_IDS`.
+The entire bot functionality is restricted to authorized administrators only. Access is granted exclusively to users whose Telegram user IDs are listed in the `ADMIN_IDS` environment variable. This ensures that only approved individuals can interact with the bot.
 
 ## 🗂️ Project Structure
 ```
@@ -85,21 +87,19 @@ Create a `.env` file in the root directory with the following contents:
 ```env
 BOT_TOKEN=your_telegram_bot_token
 ADMIN_IDS=12345678/98765432
+HOST_URL=https://your-public-url.com
+PORT=8080
 ```
 
 - `BOT_TOKEN`: Your bot token from BotFather
-- `ADMIN_IDS`: Comma-separated list of Telegram user IDs who can access admin features
+- `ADMIN_IDS`: Slash-separated list of Telegram user IDs who can access bot features
+- `HOST_URL`: The public HTTPS URL where your bot is hosted (used for setting up webhooks)
+- `PORT`: The port your Express server listens on
 
 ### 3. Run the Bot
 
 ```bash
 pnpm dev
-```
-
-If you're using Telegram webhooks and want to expose your local server:
-
-```bash
-pnpm dev:server
 ```
 
 ---
