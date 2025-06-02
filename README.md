@@ -57,17 +57,44 @@ The entire bot functionality is restricted to authorized administrators only. Ac
 ## 🗂️ Project Structure
 ```
 ├── src/
-│ ├── app.ts # Entrypoint
-│ ├── bot.ts # Bot instance and middleware
-│ ├── config/env.ts # Environment variable validation
-│ ├── constants.ts # Shared constants
-│ ├── keyboards/ # UI keyboards for Telegram
-│ ├── logger.ts # Pino logger setup
-│ ├── modules/ # Command & middleware logic
-│ ├── scenes/ # Scene handlers for multi-step flows
-│ ├── types/ # Strong typing with custom models
-│ └── utils/ # Helper functions (e.g. quote formatting)
-├── public/messages.json # Message templates 
+│   ├── app.ts                       # Bot bootstrapper — wires middleware, plugins, scenes, and modules together
+│   ├── bot.ts                       # Bot instance, middleware, and handlers
+│   ├── constants.ts                 # Centralized action and conversation IDs used across scenes and handlers
+│   ├── logger.ts                    # Pino logger configuration
+│   ├── modules/
+│   │   ├── index.ts
+│   │   ├── middleware/
+│   │   │   ├── admin-guard.ts         # Middleware to restrict access to admins
+│   │   │   ├── error-handler.ts       # Global error handling middleware
+│   │   │   └── index.ts
+│   │   ├── plugins/
+│   │   │   ├── conversation-orchestrator.ts # Sets up scene flow
+│   │   │   ├── index.ts
+│   │   │   └── session.ts             # Session middleware setup
+│   │   └── quotes/
+│   │       ├── cancel-quote.ts       # Handler to cancel a quote submission
+│   │       ├── confirm-quote.ts      # Handler to confirm and finalize a quote
+│   │       ├── edit-quote.ts         # Handler to edit a specific quote field
+│   │       └── index.ts
+│   ├── scenes/
+│   │   ├── index.ts                  
+│   │   ├── base-scene.ts             # Base class abstraction for all scenes
+│   │   ├── intro-scene.ts            # First interaction scene (/start)
+│   │   ├── quote-decision-scene.ts   # Scene where user chooses to confirm/edit/cancel
+│   │   ├── quote-field-scenes.ts     # Scenes to collect individual fields (text, author, origin)
+│   │   └── scene-composer.ts         # Helper to build complex scenes from smaller parts
+│   ├── types/                        # Strong typing with custom models
+│   │   └── models/
+│   │       ├── bot-context.ts        # Custom context interface for grammY
+│   │       ├── bot-module.ts         # Interface for modular bot components
+│   │       ├── framework-bot.ts      # Wrapper types for bot init or composition
+│   │       ├── index.ts              # Export all model types
+│   │       ├── quote.ts              # Quote structure (text, author, origin, etc.)
+│   │       └── session-data.ts       # Session structure for conversations
+│   └── utils/                        # Helper functions
+│       └── format-quote-html.ts      # Formats a quote object to HTML-styled message
+├── public/
+│   └── messages.json                 # Message templates (UI copy, prompts)
 ```
 
 ## 🛠️ Getting Started

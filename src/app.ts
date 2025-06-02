@@ -1,28 +1,22 @@
 import { Bot } from "@/bot";
+import { middleware, plugins, quoteModules } from "@/modules";
 import {
-    AdminGuard,
-    ConversationOrchestrator,
-    ErrorHandler,
-    Session,
-} from "@/modules";
-import {
-    ConfirmQuoteScene,
     IntroScene,
+    QuoteDecisionScene,
     QuoteFieldScenes,
     SceneComposer,
 } from "@/scenes";
 
 const bootstrap = () => {
     const bot = new Bot(
-        new ErrorHandler(),
-        new AdminGuard(),
-        new Session(),
-        new ConversationOrchestrator(),
+        ...middleware,
+        ...plugins,
         new SceneComposer(
             new IntroScene(),
             ...new QuoteFieldScenes(),
-            new ConfirmQuoteScene(),
+            new QuoteDecisionScene(),
         ),
+        ...quoteModules,
     );
     bot.init();
 };
