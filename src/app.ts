@@ -1,14 +1,14 @@
 import { Bot } from "@/bot";
 import {
-    ErrorHandler,
     AdminGuard,
-    Session,
     ConversationOrchestrator,
+    ErrorHandler,
+    Session,
 } from "@/modules";
 import {
     ConfirmQuoteScene,
     IntroScene,
-    QuoteScenesBuilder,
+    QuoteFieldScenes,
     SceneComposer,
 } from "@/scenes";
 
@@ -20,9 +20,7 @@ const bootstrap = () => {
         new ConversationOrchestrator(),
         new SceneComposer(
             new IntroScene(),
-            new QuoteScenesBuilder("text"),
-            new QuoteScenesBuilder("author"),
-            new QuoteScenesBuilder("origin"),
+            ...new QuoteFieldScenes(),
             new ConfirmQuoteScene(),
         ),
     );
