@@ -3,13 +3,16 @@ import { actionPayloads, conversationIDs } from "@/constants";
 import type { BotModule, FrameworkBot } from "@/types/models";
 import { formatQuoteHtml } from "@/utils/format-quote-html";
 import { statuses } from "public/messages.json";
+import { updateCachedSessionMessage } from "@/utils/cached-message";
 
 export class ConfirmQuote implements BotModule {
     apply(bot: FrameworkBot): void {
         bot.callbackQuery(
             actionPayloads.CONFIRM_QUOTE_CREATION,
             async (ctx) => {
-                await ctx.reply(statuses.QUOTE_POSTING);
+                await updateCachedSessionMessage(ctx, {
+                    messageText: statuses.QUOTE_POSTING,
+                });
 
                 try {
                     const {
@@ -22,7 +25,9 @@ export class ConfirmQuote implements BotModule {
                             parse_mode: "HTML",
                         },
                     );
-                    await ctx.reply(statuses.QUOTE_SUCCESS);
+                    await updateCachedSessionMessage(ctx, {
+                        messageText: statuses.QUOTE_SUCCESS,
+                    });
                     await ctx.reply(statuses.QUOTE_REFERENCE, {
                         reply_parameters: {
                             message_id,

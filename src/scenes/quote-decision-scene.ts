@@ -9,6 +9,7 @@ import {
     createConversation,
 } from "@grammyjs/conversations";
 import type { Context, MiddlewareFn } from "grammy";
+import { cacheMessageInSession } from "@/utils/cached-message";
 
 const quoteDecisionConversation = async (
     conversation: Conversation,
@@ -17,10 +18,13 @@ const quoteDecisionConversation = async (
     const session = await conversation.external(
         (ctx: BotContext) => ctx.session,
     );
-    await ctx.reply(formatQuoteHtml(session), {
-        parse_mode: "HTML",
-        reply_markup: quoteDecisionKeyboard,
-    });
+    await cacheMessageInSession(
+        conversation,
+        await ctx.reply(formatQuoteHtml(session), {
+            parse_mode: "HTML",
+            reply_markup: quoteDecisionKeyboard,
+        }),
+    );
     await conversation.halt();
 };
 

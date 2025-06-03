@@ -9,11 +9,15 @@ import { welcome } from "public/messages.json";
 import { actionPayloads, conversationIDs } from "@/constants";
 import { startQuoteCreationKeyboard } from "@/keyboards";
 import { BaseScene } from "@/scenes/base-scene";
+import { cacheMessageInSession } from "@/utils/cached-message";
 
-const introConversation = async (__: Conversation, ctx: Context) => {
-    await ctx.reply(welcome.TEXT, {
-        reply_markup: startQuoteCreationKeyboard,
-    });
+const introConversation = async (conversation: Conversation, ctx: Context) => {
+    await cacheMessageInSession(
+        conversation,
+        await ctx.reply(welcome.TEXT, {
+            reply_markup: startQuoteCreationKeyboard,
+        }),
+    );
 };
 
 export class IntroScene extends BaseScene {

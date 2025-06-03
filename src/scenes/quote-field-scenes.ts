@@ -8,6 +8,7 @@ import {
 import type { Context, MiddlewareFn } from "grammy";
 import { prompts } from "public/messages.json";
 import { BaseScene } from "./base-scene";
+import { updateCachedSessionMessage } from "@/utils/cached-message";
 
 export const QUOTE_FIELD_PROMPTS: Record<
     keyof Quote,
@@ -32,14 +33,18 @@ const requestFieldConversation =
         quoteField,
         messageText,
     }: { quoteField: keyof Quote; messageText: string }) =>
-    async (conversation: Conversation, ctx: Context) => {
-        await ctx.reply(messageText);
+    async (conversation: Conversation) => {
+        await updateCachedSessionMessage(conversation, {
+            messageText,
+        });
+
         const {
             message: { text },
         } = await conversation.waitFor("message:text");
 
         await conversation.external((externalCtx: BotContext) => {
             externalCtx.session[quoteField] = text;
+            externalCtx.session.cachedMessage = null;
         });
 
         await conversation.halt();

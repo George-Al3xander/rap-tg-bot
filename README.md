@@ -92,9 +92,10 @@ The entire bot functionality is restricted to authorized administrators only. Ac
 │   │       ├── quote.ts              # Quote structure (text, author, origin, etc.)
 │   │       └── session-data.ts       # Session structure for conversations
 │   └── utils/                        # Helper functions
+│       ├── cachedMessage.ts          # Utilities for caching, editing, deleting messages in session
 │       └── format-quote-html.ts      # Formats a quote object to HTML-styled message
 ├── public/
-│   └── messages.json                 # Message templates (UI copy, prompts)
+│   └── messages.json                 # Static bot messages and templates
 ```
 
 ## 🛠️ Getting Started

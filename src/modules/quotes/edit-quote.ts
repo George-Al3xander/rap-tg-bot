@@ -1,7 +1,7 @@
 import type { BotModule, FrameworkBot } from "@/types/models";
 import { actionPayloads, conversationIDs } from "@/constants";
-import { formatQuoteHtml } from "@/utils/format-quote-html";
 import { quoteEditOptionsKeyboard } from "@/keyboards";
+import { updateCachedSessionMessage } from "@/utils/cached-message";
 
 const payloadToSceneMap: [string, string][] = [
     [actionPayloads.EDIT_QUOTE_TEXT, conversationIDs.TEXT_REQUEST],
@@ -13,9 +13,9 @@ const payloadToSceneMap: [string, string][] = [
 export class EditQuote implements BotModule {
     apply(bot: FrameworkBot): void {
         bot.callbackQuery(actionPayloads.EDIT_QUOTE_CREATION, async (ctx) => {
-            await ctx.reply(formatQuoteHtml(ctx.session), {
-                reply_markup: quoteEditOptionsKeyboard,
-                parse_mode: "HTML",
+            await updateCachedSessionMessage(ctx, {
+                replyMarkup: quoteEditOptionsKeyboard,
+                parseMode: "HTML",
             });
             await ctx.answerCallbackQuery();
         });
