@@ -1,16 +1,16 @@
 {
     "welcome": {
-        "TEXT": "Welcome to MoreThanRapBot! 🎤 Want to contribute to the vibe? Drop your sickest rap quotes and let's keep the flow going! Let's keep those bars hot! 🔥"
+        "TEXT": "Welcome! 💬 Got something inspiring, witty, or powerful to share? Drop your best quotes and keep the creativity flowing. Let’s keep the energy high! 🔥"
     },
     "buttons": {
         "START": "✍️ Create a Quote",
         "CONFIRM_QUOTE": "Confirm✅",
         "EDIT_QUOTE": "Edit✏️",
         "CANCEL_QUOTE": "Cancel🗑️",
-        "EDIT_QUOTE_TEXT": "Text",
-        "EDIT_QUOTE_AUTHOR": "Author",
-        "EDIT_QUOTE_ORIGIN": "Origin",
-        "CANCEL_EDIT": "Cancel"
+        "EDIT_QUOTE_TEXT": "Text📝",
+        "EDIT_QUOTE_AUTHOR": "Author👤",
+        "EDIT_QUOTE_ORIGIN": "Origin🌍",
+        "CANCEL_EDIT": "◀️ Back"
     },
     "errors": {
         "UNAUTHORIZED": "<b>Unauthorized Access 🔐</b>\n\nYou are not allowed to use this bot."
@@ -18,8 +18,7 @@
     "prompts": {
         "QUOTE_TEXT": "Please provide the text of the quote.",
         "QUOTE_AUTHOR": "Please share the name of the author of this quote.",
-        "QUOTE_ORIGIN": "Specify the origin of this quote.",
-        "QUOTE_CREATE_ANOTHER": "Would you like to create another one?"
+        "QUOTE_ORIGIN": "Specify the origin of this quote."
     },
     "statuses": {
         "QUOTE_POSTING": "Quote is being posted...",
